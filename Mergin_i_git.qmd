@@ -30,3 +30,5 @@ The `echo: false` option disables the printing of code (only output is displayed
 dette er bare noe ny tekst for å teste merging i Rstudio
 
 En setning til lagt til.
+
+En kopi av et avsnitt
