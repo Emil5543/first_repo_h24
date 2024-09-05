@@ -59,7 +59,101 @@ print(
 ```{r}
   #| paged.print: false
 flights %>% 
-  filter(month == 1, day %in% c(1, 15, 30)) %>% 
-  slice_tail(n = 7) %>% 
+  filter(month == 1 & day %in% c(1, 15, 30)) %>% 
   print(width = 70)
 ```
+
+```{r}
+  #| paged.print: false
+flights %>% 
+  filter((month == 1 & day %in% c(1, 15, 30)) | day %in% c(2)) %>% 
+  print(width = 70)
+```
+
+```{r}
+5 < 5
+```
+
+```{r}
+5 <= 5
+```
+
+```{r}
+!5 <= 5
+```
+
+```{r}
+!(5 <= 5)
+```
+
+```{r}
+  #| paged.print: false
+flights %>% 
+  filter(!(month == 1) & day %in% c(1, 15, 30))
+```
+
+```{r}
+ #| paged.print: false
+flights %>% 
+  filter(!(month == 1 & day %in% c(1, 15, 30)))
+```
+
+```{r}
+ #| paged.print: false
+flights %>% 
+  filter(month %in% c(4,  9)) |> 
+summarise(antall = n()) |> 
+  pull()
+```
+
+```{r}
+ #| paged.print: false
+flights %>% 
+  filter(day %in% c(1:2)) |> 
+summarise(antall = n()) |> 
+  pull()
+```
+
+```{r}
+  filter(flights, arr_delay >= 15 & arr_delay < 30) %>%
+  summarise(n()) |> 
+  pull()
+```
+```{r}
+  filter(flights, arr_delay >= 15 & arr_delay < 30) |> 
+  dim() %>%
+  .[1]
+```
+```{r}
+  filter(flights, arr_delay >= 15 & arr_delay < 30) |> 
+  dim() %>%
+  head(n = 1)
+```
+
+```{r}
+tmp <- filter(flights, arr_delay >= 15 & arr_delay < 30) |> 
+  dim()
+
+`[`(tmp, 1)
+```
+
+```{r}
+#dec. first
+print(arrange(flights, year, desc(month), desc(day)), n = 10, width = 70)
+```
+```{r}
+#| paged.print: false
+flights |> 
+select(day, month, arr_delay) |> 
+  filter(month == 5L) |> 
+  summarise(median_arr_delay_may = median(arr_delay, na.rm = TRUE)) |> 
+  pull()
+```
+
+```{r}
+#| paged.print: false
+flights %>%
+  group_by(month, origin) %>%
+  summarise(median_arr_delay = median(arr_delay, na.rm = TRUE))
+```
+
