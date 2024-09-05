@@ -6,7 +6,7 @@ editor: visual
 
 ## Quarto
 
-Quarto enables you to weave together content and executable code into a finished document.
+Quarto enables me to weave together content and executable code into a finished document.
 To learn more about Quarto see <https://quarto.org>.
 
 ## Running Code
@@ -31,4 +31,4 @@ dette er bare noe ny tekst for å teste merging i Rstudio
 
 En setning til lagt til.
 
-En kopi av et avsnitt
+En kopi av et
