@@ -1,0 +1,28 @@
+---
+title: "joins"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: setup 
+library(tidyverse)
+library(nycflights13)
+```
+
+```{r}
+#| paged.print: false
+head(airlines, n = 3)
+```
+
+```{r}
+flights %>% 
+  select(year:day, carrier, everything()) %>% 
+  group_by(carrier) %>% 
+  summarise(first(dep_time)) %>% 
+  head(, n= 3)
+```
+
+```{r}
+
+```
