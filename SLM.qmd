@@ -1,0 +1,50 @@
+---
+title: "SLM"
+format: 
+  html: default
+  pdf: 
+    papersize: a4
+  docx: default
+editor: visual
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| tbl-cap-location: bottom
+library(tidyverse)
+library(wooldridge)
+library(flextable)
+```
+
+```{r}
+#| paged.print: false 
+{set.seed(123)
+campus_10 <- wooldridge::campus %>%
+.[sample(1:97, 10),] |> 
+select(police, crime)
+t(campus_10)}
+```
+
+```{r}
+campus_10 %>% 
+  lm(
+    formula = 'crime ~ police', 
+    data = .
+  ) |> 
+  summary()
+```
+
+```{r}
+#| label: tbl-first-summary
+#| tbl-cap: "First summary of campus model."
+campus_10 %>% 
+  lm(
+    formula = 'crime ~ police', 
+    data = .
+  ) |> 
+  as_flextable() |> 
+  line_spacing(space = 0.3, part = "all")
+```
+
+In @tbl-first-summary you will find the first summary of the campus model
