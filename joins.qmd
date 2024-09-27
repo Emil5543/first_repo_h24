@@ -139,3 +139,46 @@ x
 ```{r}
 (x <- as.numeric(str_sub(x, start = 1, end = 2)))
 ```
+
+```{r}
+fix_dep_time <- function(x) {
+  x = str_pad(x, width = 4, side = "left", pad = "0")
+  x = str_sub(x, start = 1, end = 2)
+  # This is correct since hour 0: 23 in weather dataset
+  # Note that not all days have hour = 0
+  x = as.integer(x)
+  return(x)
+  }
+```
+
+```{r}
+flights <- flights %>% 
+  mutate(
+    dep_time_hour = fix_dep_time(dep_time)
+  )
+```
+
+```{r}
+nmf <- names(flights)
+nmf[nmf %in% names(weather)]
+```
+
+```{r}
+flights <- flights %>% 
+  left_join(weather, 
+            by = c("origin", "year", "month", "day", "dep_time_hour" = "hour"),
+            suffix = c("", "_weather"), 
+            keep = FALSE
+            )
+```
+
+```{r}
+flights <- flights %>% 
+  select(year, month, day, dep_time, everything()) %>% 
+  print(width = 75)
+```
+
+```{r}
+#| paged.print: false
+flights |> print(width = 70)
+```

@@ -48,3 +48,7 @@ campus_10 %>%
 ```
 
 In @tbl-first-summary you will find the first summary of the campus model
+
+```{r}
+cars %>% lm(formula = 'dist ~ speed', data = .) |> as_flextable() |> line_spacing(space = 0.2, part = "all")
+```
