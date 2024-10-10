@@ -1,0 +1,182 @@
+---
+title: "Factors"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: setup
+library(tidyverse)
+```
+
+```{r}
+#| paged.print: false
+gss_cat
+```
+
+```{r}
+gss_cat <- gss_cat |>
+  mutate(
+    partyid = as.character(partyid)
+  )
+```
+
+```{r}
+#| paged.print: false
+gss_cat
+```
+
+```{r}
+gss_cat <- gss_cat |> 
+  mutate(
+    partyid_fac = fct(partyid)
+  )
+```
+
+```{r}
+levels(gss_cat$partyid_fac)
+```
+
+```{r}
+gss_cat <- gss_cat |> 
+  mutate(
+    party = fct_collapse(
+      .f = partyid_fac,
+      "Strong rep" = "Strong republican",
+      "Strong dem" = "Strong democrat",
+      "Ind" = c("Independent", "Ind,near dem", "Ind,near rep"),
+      other_level = "Other"
+    )
+  )
+```
+
+## Make a factor variable 
+
+```{r}
+#| paged.print: false
+# Some alternatives Long Abbreviations for Days
+x <- c("Mon", "Tue", "Tues", "Wed", "Thu", "Thur", "Thurs", "Fri", "Sat", "Sun")
+set.seed(1234)
+df_days <- tibble(
+  days = sample(x, size = 100, replace = TRUE)
+  )
+df_days %>% table()
+```
+
+```{r}
+# or use fct_collapse()
+df_days <- df_days %>% 
+  mutate(
+    days = case_when(
+      days %in% c("Tues") ~ "Tue",
+      days %in% c("Thur", "Thurs") ~ "Thu",
+      TRUE ~ days
+    )
+  )
+df_days %>% table()
+```
+
+```{r}
+# US standard; Sunday first day of the week
+day_levels <- c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+tmp_days <- df_days %>% 
+  mutate(
+    days_fixed = factor(days, levels = day_levels)
+  ) %>%
+  select(days_fixed) 
+```
+
+```{r}
+#| paged.print: false
+tmp_days
+```
+
+```{r}
+#| paged.print: false
+tmp_days %>% 
+  table() 
+```
+
+```{r}
+head(tmp_days$days_fixed, n = 15)
+```
+
+```{r}
+df_days <- tmp_days
+df_days <- df_days %>%
+  mutate(
+    day_of_the_week = as.numeric(days_fixed)
+  )
+head(df_days$day_of_the_week, n = 5)
+```
+
+```{r}
+df_days <- df_days %>% 
+  mutate(
+    # first convert day_of_the_week to character
+    day_of_the_week = as.character(day_of_the_week),
+    # then convert day_of_the_week to factor
+    day_of_the_week = parse_factor(day_of_the_week)
+  )
+df_days[1:6,]
+```
+
+```{r}
+levels(df_days$day_of_the_week)
+```
+
+```{r}
+#| paged.print: false
+df_days %>% 
+  filter(days_fixed == "Thu") %>% 
+  head(n = 5)
+```
+
+```{r}
+df_days$day_of_the_week |> table()
+```
+
+```{r}
+df_days$day_of_the_week <- fct_infreq(df_days$day_of_the_week)
+levels(df_days$day_of_the_week)
+```
+
+```{r}
+# Norwegian abbreviations 
+df_days <- df_days %>%
+  mutate(
+    days_nor = days_fixed,
+    days_nor = fct_recode(days_nor,
+      "søn" = "Sun",
+      "man" = "Mon",
+      "tir" = "Tue",
+      "ons" = "Wed",
+      "tor" = "Thu",
+      "fre" = "Fri",
+      "lør" = "Sat",
+    ),
+    # monday first day of week
+    days_nor = fct_relevel(days_nor, "søn", after = 6)
+  )
+levels(df_days$days_nor)
+```
+
+```{r}
+# day of the week Norwegian standard, monday day 1
+df_days <- df_days %>%
+  mutate(
+    # get the numeric values of the nor days, mon = 1 etc
+    d_o_t_w_nor = as.numeric(days_nor),
+    # convert to character to make categories
+    d_o_t_w_nor = as.character(d_o_t_w_nor),
+    # make a factor of it
+    d_o_t_w_nor = parse_factor(d_o_t_w_nor),
+    # sort the levels, "1", "2" ... "7"
+    d_o_t_w_nor = fct_inseq(d_o_t_w_nor)
+  )
+levels(df_days$d_o_t_w_nor)
+```
+
+```{r}
+
+```
