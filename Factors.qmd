@@ -50,7 +50,7 @@ gss_cat <- gss_cat |>
   )
 ```
 
-## Make a factor variable 
+## Make a factor variable
 
 ```{r}
 #| paged.print: false

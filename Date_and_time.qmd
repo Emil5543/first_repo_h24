@@ -1,0 +1,41 @@
+---
+title: "Date and time"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(lubridate)
+```
+
+```{r}
+# nine eleven
+us_date <- "9-11-2001"
+no_date <- "11/9/2001"
+typeof(us_date)
+```
+
+```{r}
+us_d <- mdy(us_date) # note mdy
+typeof(us_d)
+```
+
+```{r}
+no_d <- dmy(no_date) #note dmy
+typeof(no_d)
+```
+
+```{r}
+today() # date
+```
+
+```{r}
+# change type
+as_date(now())
+```
+
+```{r}
+as_datetime(today())
+```
