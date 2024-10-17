@@ -1,0 +1,82 @@
+---
+title: "Functions"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: setup
+library(tidyverse)
+```
+
+```{r}
+'+' <- function(x, y) {x - y}
+```
+
+```{r}
+10+2
+```
+
+```{r}
+y <- c(2,9)
+z <- c(2, -3)
+```
+
+```{r}
+y + z
+```
+
+```{r}
+rm('+')
+```
+
+```{r}
+decide_number <- function(x) {
+#  stopifnot(is.numeric(x) & length(x) == 1)
+  if (x > 0) {
+    paste(x, "is greater than zero")
+  } else if (x < 0) {
+    paste(x, "is less than zero")
+  } else {
+    paste(x, "is zero")
+  }
+}
+```
+
+```{r}
+decide_number(4)
+```
+
+```{r}
+decide_number(-3)
+```
+
+```{r}
+decide_number(0)
+```
+
+```{r}
+decide_number(c(4, -3, 0))
+```
+
+```{r}
+decide_numvec <- function(x) {
+  stopifnot(is.numeric(x))
+  x_g <- x > 0
+  x_l <- x < 0
+  x_ans <- case_when(
+    x_g == TRUE~ paste(x, "is greater than zero"),
+    x_l == TRUE ~ paste(x, "is less than zero"),
+    !(x_g | x_l) == TRUE ~ paste(x, "is zero")
+  )
+  x_ans
+}
+```
+
+```{r}
+c(4, -3, 0) > 0
+```
+
+```{r}
+decide_numvec(c(4, -3, 0))
+```

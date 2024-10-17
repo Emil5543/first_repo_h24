@@ -1,0 +1,14 @@
+---
+title: "Inference"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: setup 
+library(tidyverse)
+```
+
+```{r}
+summary(lm('mpg ~ wt + disp + fct(as.character(cyl))', data = mtcars))
+```
